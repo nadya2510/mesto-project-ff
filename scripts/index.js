@@ -6,23 +6,23 @@ const placesList = document.querySelector(".places__list");
 function addCard(itemCard, deleteCard) {
   const cardTemplate = document.querySelector("#card-template").content;
   const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
+  const cardImg = cardElement.querySelector(".card__image");
+  const cardTitle = cardElement.querySelector(".card__description .card__title");
+  const cardButton = cardElement.querySelector(".card__delete-button");
   const nameValue = itemCard.name;
   const linkValue = itemCard.link;
 
-  cardElement.querySelector(".card__description .card__title").textContent =
-    nameValue;
-  cardElement.querySelector(".card__image").setAttribute("src", linkValue);
-  cardElement.querySelector(".card__image").setAttribute("alt", nameValue);
-  cardElement
-    .querySelector(".card__delete-button")
-    .addEventListener("click", deleteCard);
+  cardTitle.textContent = nameValue;
+  cardImg.setAttribute("src", linkValue);
+  cardImg.setAttribute("alt", nameValue);
+  cardButton.addEventListener("click", () =>  deleteCard(cardElement));
+  
   return cardElement;
 }
 
 // @todo: Функция удаления карточки
-function removeCard(evt) {
-  const removeElement = evt.target.parentElement;
-  removeElement.remove();
+function removeCard(card) { 
+  card.remove();
 }
 
 // @todo: Вывести карточки на страницу
