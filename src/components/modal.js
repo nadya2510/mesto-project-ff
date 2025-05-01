@@ -5,7 +5,7 @@ const handleEscKeyUp = (e) => {
   }
 };
 
-const addEventModal = (modal) => {
+export const addEventModal = (modal) => {
   const buttonClose = modal.querySelector(".popup__close");
   // ищем кнопку крестик в попапе
   buttonClose.addEventListener("click", () => {
@@ -25,8 +25,6 @@ export const openModal = (modal) => {
   modal.classList.add("popup_is-opened");
   // добавить слушатель на кнопку Escape
   document.addEventListener("keyup", handleEscKeyUp);
-  //Добавим слушатели для закрытия
-  addEventModal(modal);
 };
 
 export const closeModal = (modal) => {
