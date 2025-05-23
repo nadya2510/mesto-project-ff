@@ -8,3 +8,10 @@
   /*Либо с точками из макета, либо этот набор свойств для эллипсиса текста в можно лучше*/
   margin: 0;
 }
+
+.card__like{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
