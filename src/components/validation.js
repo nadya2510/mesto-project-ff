@@ -79,15 +79,17 @@ export const enableValidation = (form) => {
   });
 };
 
-export const clearValidation = (profileForm, form) => {
+export const clearValidation = (formElement, form) => {
+  const buttonElement = formElement.querySelector(submitButtonSelector);
+  const inputList = Array.from(formElement.querySelectorAll(inputSelector));
   formSelector = form.formSelector;
   inputSelector = form.inputSelector;
   inputErrorClass = form.inputErrorClass;
-  errorClass = form.errorClass;
-  const formElement = profileForm.querySelector(formSelector);
-  const inputList = Array.from(formElement.querySelectorAll(inputSelector));
+  errorClass = form.errorClass;  
 
   inputList.forEach((inputElement) => {
     hideInputError(formElement, inputElement);
   });
+  
+  toggleButtonState(inputList, buttonElement);
 };

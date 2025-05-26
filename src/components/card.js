@@ -1,3 +1,5 @@
+import { cardsLike } from "./api.js";
+
 export function addCard(cardData, deleteCard, likeCard, editCard, userId) {
   const cardTemplate = document.querySelector("#card-template").content;
   const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
@@ -34,4 +36,29 @@ export function addCard(cardData, deleteCard, likeCard, editCard, userId) {
   }
 
   return cardElement;
+}
+
+
+export function likeCard(cardElement, likeButton, cardId) {
+  const cardLikeKol = cardElement.querySelector(".card__like-kol");
+
+  if (likeButton.classList.contains("card__like-button_is-active")) {
+    cardsLike(cardId, "DELETE")
+      .then((res) => {
+        cardLikeKol.textContent = res.likes.length;
+        likeButton.classList.remove("card__like-button_is-active");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } else {
+    cardsLike(cardId, "PUT")
+      .then((res) => {
+        cardLikeKol.textContent = res.likes.length;
+        likeButton.classList.add("card__like-button_is-active");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 }

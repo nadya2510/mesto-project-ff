@@ -81,9 +81,6 @@ export const cardsLike = (cardId, methodLike) => {
         return res.json();
       }
     })
-    .then((data) => {
-      return data.likes.length;
-    })
     .catch((err) => {
       return Promise.reject(`Ошибка: ${res.status}`);
     });

@@ -6,10 +6,9 @@ import {
   setUser,
   setCard,
   deleteCard,
-  cardsLike,
   setAvatar,
 } from "./components/api.js";
-import { addCard } from "./components/card.js";
+import { addCard, likeCard } from "./components/card.js";
 import { openModal, closeModal, addEventModal } from "./components/modal.js";
 
 // DOM узлы
@@ -83,7 +82,7 @@ enableValidation(validationConfig);
 buttonTypeEdit.addEventListener("click", () => {
   //Заполним поля профиля с формы
   nameInput.value = nameProfile.textContent;
-  jobInput.value = jobProfile.textContent;
+  jobInput.value = jobProfile.textContent; 
   clearValidation(popupTypeEdit, validationConfig);
   //Откроем
   openModal(popupTypeEdit);
@@ -135,11 +134,13 @@ function handleCardSubmit(evt) {
   setCard(name, link)
     .then((res) => {
       placesList.prepend(addCard(res, removeCard, likeCard, editImg, userId));
-      evt.target.querySelector(".popup__button").textContent = "Сохранить";
       closeModal(popupNewCard);
-    })
+    })    
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() =>{
+      evt.target.querySelector(".popup__button").textContent = "Сохранить";
     });
 }
 
@@ -149,12 +150,14 @@ function handleProfileSubmit(evt) {
   setUser(nameInput.value, jobInput.value)
     .then(() => {
       nameProfile.textContent = nameInput.value;
-      jobProfile.textContent = jobInput.value;
-      evt.target.querySelector(".popup__button").textContent = "Сохранить";
+      jobProfile.textContent = jobInput.value;      
       closeModal(popupTypeEdit);
     })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() =>{
+      evt.target.querySelector(".popup__button").textContent = "Сохранить";
     });
 }
 
@@ -189,36 +192,15 @@ function handlEditAvatarSubmit(evt) {
       profileImage.setAttribute(
         "style",
         `background-image: url(${linkInput.value})`
-      );
-      evt.target.querySelector(".popup__button").textContent = "Сохранить";
+      );     
       userAvatar = linkInput.value;
       closeModal(popupEditAvatar);
     })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() =>{
+      evt.target.querySelector(".popup__button").textContent = "Сохранить";
     });
 }
 
-function likeCard(cardElement, likeButton, cardId) {
-  const cardLikeKol = cardElement.querySelector(".card__like-kol");
-
-  if (likeButton.classList.contains("card__like-button_is-active")) {
-    cardsLike(cardId, "DELETE")
-      .then((res) => {
-        cardLikeKol.textContent = res;
-        likeButton.classList.remove("card__like-button_is-active");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  } else {
-    cardsLike(cardId, "PUT")
-      .then((res) => {
-        cardLikeKol.textContent = res;
-        likeButton.classList.add("card__like-button_is-active");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-}
