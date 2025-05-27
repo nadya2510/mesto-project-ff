@@ -42,23 +42,12 @@ export function addCard(cardData, deleteCard, likeCard, editCard, userId) {
 export function likeCard(cardElement, likeButton, cardId) {
   const cardLikeKol = cardElement.querySelector(".card__like-kol");
 
-  if (likeButton.classList.contains("card__like-button_is-active")) {
-    cardsLike(cardId, "DELETE")
+    cardsLike(cardId, likeButton.classList.contains("card__like-button_is-active")? "DELETE" : "PUT")
       .then((res) => {
         cardLikeKol.textContent = res.likes.length;
-        likeButton.classList.remove("card__like-button_is-active");
+        likeButton.classList.toggle("card__like-button_is-active");        
       })
       .catch((err) => {
         console.log(err);
-      });
-  } else {
-    cardsLike(cardId, "PUT")
-      .then((res) => {
-        cardLikeKol.textContent = res.likes.length;
-        likeButton.classList.add("card__like-button_is-active");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+      });  
 }
